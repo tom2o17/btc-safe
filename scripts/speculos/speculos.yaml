@@ -1,0 +1,22 @@
+vmType: vz
+arch: aarch64
+cpus: 2
+memory: 2GiB
+disk: 10GiB
+images:
+- location: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
+  arch: "aarch64"
+mounts:
+# Edit to the absolute path of .speculos-vm in your checkout (it is mounted at the same path in the guest).
+- location: "~/btc-safe/.speculos-vm"
+  writable: true
+containerd:
+  system: false
+  user: false
+portForwards:
+- guestPort: 9999
+  hostIP: "127.0.0.1"
+  hostPort: 9999
+- guestPort: 5000
+  hostIP: "127.0.0.1"
+  hostPort: 5000

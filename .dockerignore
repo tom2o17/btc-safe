@@ -1,0 +1,11 @@
+target
+.git
+.speculos-vm
+.venv-speculos
+scripts
+*.md
+web/node_modules
+web/.next
+web/screenshots
+web/e2e
+web/*.tsbuildinfo

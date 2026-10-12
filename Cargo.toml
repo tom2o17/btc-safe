@@ -1,0 +1,53 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/tom2o17/btc-safe"
+publish = false
+
+[workspace.dependencies]
+# Pinned 2026-10-07 from crates.io. bdk_wallet 3.2.0 requires miniscript ^12.3.5 and bitcoin ^0.32.8,
+# so we use those through bdk_wallet's re-exports to avoid duplicate type versions.
+bdk_wallet = { version = "=3.2.0", default-features = false, features = ["std"] }
+bdk_esplora = { version = "=0.22.2", default-features = false, features = ["async-https-rustls", "tokio"] }
+bdk_chain = "=0.23.3"
+bitcoin = { version = "0.32.8", features = ["serde", "base64"] }
+miniscript = { version = "12.3.5", features = ["serde"] }
+sqlx = { version = "=0.9.0", default-features = false, features = ["runtime-tokio", "tls-rustls", "postgres", "macros", "migrate", "uuid", "chrono", "json"] }
+axum = "=0.8.9"
+tokio = { version = "1.53", features = ["full"] }
+tower-http = { version = "0.7", features = ["trace", "cors"] }
+proptest = "1.11"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+anyhow = "1"
+uuid = { version = "1.27", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+async-trait = "0.1"
+argon2 = { version = "0.5", features = ["std"] }
+getrandom = "0.3"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+btc-safe-core = { path = "crates/core" }
+btc-safe-wallet = { path = "crates/wallet" }
+btc-safe-chain = { path = "crates/chain" }
+btc-safe-store = { path = "crates/store" }
+btc-safe-watcher = { path = "crates/watcher" }
+btc-safe-testkit = { path = "crates/testkit" }
+
+[workspace.lints.clippy]
+disallowed_types = "deny"
+disallowed_methods = "deny"
+
+# argon2 is unusably slow unoptimized; tests hash real passwords.
+[profile.dev.package.argon2]
+opt-level = 3
+[profile.dev.package.blake2]
+opt-level = 3

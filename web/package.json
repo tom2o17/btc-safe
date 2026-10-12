@@ -1,0 +1,40 @@
+{
+  "name": "btc-safe-web",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --no-warnings lib/*.test.mjs test/*.test.mjs",
+    "e2e:ledger": "node --no-warnings e2e/ledger-speculos.mjs",
+    "e2e:ledger-browser": "node --no-warnings e2e/ledger-browser.mjs"
+  },
+  "dependencies": {
+    "@bitcoinerlab/secp256k1": "^2.0.0",
+    "@ledgerhq/hw-transport": "^6.35.5",
+    "@ledgerhq/hw-transport-webhid": "^6.36.0",
+    "@ngraveio/bc-ur": "^1.1.13",
+    "@trezor/connect-web": "^10.0.1",
+    "bbqr": "^1.2.0",
+    "bip32": "^5.0.1",
+    "bitcoinjs-lib": "^7.0.2",
+    "buffer": "^6.0.3",
+    "ledger-bitcoin": "^0.3.0",
+    "next": "^16.4.0",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@ledgerhq/hw-transport-node-speculos": "^6.34.7",
+    "@types/node": "^26.6.4",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "playwright-core": "^1.64.0",
+    "typescript": "^7.0.2"
+  }
+}

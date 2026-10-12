@@ -1,0 +1,18 @@
+# btc-safe web. Build context: repo root.
+FROM node:25-bookworm-slim AS build
+WORKDIR /app
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY web/package.json web/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY web/ ./
+# The /api/* rewrite target is fixed at build time (pass the API address as a build arg).
+ARG BTC_SAFE_API
+ENV BTC_SAFE_API=$BTC_SAFE_API
+RUN test -n "$BTC_SAFE_API" && npm run build
+
+FROM node:25-bookworm-slim
+WORKDIR /app
+ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1
+COPY --from=build --chown=node:node /app ./
+USER node
+CMD ["sh", "-c", "exec node_modules/.bin/next start -H 0.0.0.0 -p ${PORT:-3000}"]

@@ -1,0 +1,16 @@
+[package]
+name = "btc-safe-testkit"
+description = "TEST-ONLY helpers: generates throwaway xprivs and signs PSBTs offline. Never a normal dependency."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "btc_safe_testkit"
+
+[dependencies]
+bitcoin = { workspace = true, features = ["rand-std"] }
+miniscript.workspace = true
+# testkit is the one crate allowed private-key types; it does not inherit the workspace lints.

@@ -1,0 +1,18 @@
+# Watch-only invariant (DESIGN.md §6.1): no private-key types anywhere in the backend.
+# The only exception is crates/testkit (dev-dependency only), which opts out explicitly.
+disallowed-types = [
+  { path = "bitcoin::PrivateKey", reason = "watch-only invariant: the backend never holds owner keys" },
+  { path = "bitcoin::bip32::Xpriv", reason = "watch-only invariant: the backend never holds owner keys" },
+  { path = "bitcoin::secp256k1::SecretKey", reason = "watch-only invariant: the backend never holds owner keys" },
+  { path = "bitcoin::secp256k1::Keypair", reason = "watch-only invariant: the backend never holds owner keys" },
+  { path = "secp256k1::SecretKey", reason = "watch-only invariant" },
+  { path = "secp256k1::Keypair", reason = "watch-only invariant" },
+  { path = "miniscript::descriptor::DescriptorSecretKey", reason = "watch-only invariant" },
+  { path = "miniscript::descriptor::KeyMap", reason = "watch-only invariant: descriptors must be public-only" },
+  { path = "bdk_wallet::signer::SignersContainer", reason = "watch-only invariant" },
+]
+disallowed-methods = [
+  { path = "bitcoin::psbt::Psbt::sign", reason = "watch-only invariant: the backend never signs" },
+  { path = "bdk_wallet::Wallet::sign", reason = "watch-only invariant: the backend never signs" },
+  { path = "miniscript::Descriptor::parse_descriptor", reason = "can return secret keys; use Descriptor::<DescriptorPublicKey>::from_str" },
+]

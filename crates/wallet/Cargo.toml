@@ -1,0 +1,26 @@
+[package]
+name = "btc-safe-wallet"
+description = "bdk_wallet wrapper: watch-only wallet, coin selection with reservations, PSBT build."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "btc_safe_wallet"
+
+[dependencies]
+btc-safe-core.workspace = true
+bdk_wallet.workspace = true
+bitcoin.workspace = true
+miniscript.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+btc-safe-testkit.workspace = true
+
+[lints]
+workspace = true

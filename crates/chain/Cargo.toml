@@ -1,0 +1,29 @@
+[package]
+name = "btc-safe-chain"
+description = "ChainSource trait + Esplora implementation."
+version.workspace = true
+edition.workspace = true
+publish.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+name = "btc_safe_chain"
+
+[dependencies]
+btc-safe-wallet.workspace = true
+bdk_wallet.workspace = true
+bdk_esplora.workspace = true
+bitcoin.workspace = true
+async-trait.workspace = true
+thiserror.workspace = true
+serde.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+btc-safe-core.workspace = true
+btc-safe-testkit.workspace = true

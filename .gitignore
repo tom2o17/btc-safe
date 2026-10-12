@@ -1,0 +1,47 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.seed
+*.wallet
+secrets/
+credentials*.json
+
+# Rust
+target/
+**/*.rs.bk
+
+# Node / Next.js
+node_modules/
+web/.next/
+web/out/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Local data
+*.sqlite
+*.sqlite3
+*.db
+pgdata/
+*.log
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Ledger emulator (scripts/speculos/START.md)
+.speculos-vm/
+.venv-speculos/
+
+# Screenshots from the live-instance checks (web/e2e/*-live.mjs) show real accounts
+web/screenshots/usd-home.png
+web/screenshots/fix8-*.png
+web/screenshots/dark-*.png

@@ -1,0 +1,13 @@
+btc-safe
+Copyright (c) 2026 The btc-safe contributors. Licensed under the MIT License (see LICENSE).
+
+This project includes third-party material:
+
+crates/api/data/common-passwords.txt
+  Derived from SecLists (https://github.com/danielmiessler/SecLists):
+  Passwords/Common-Credentials/xato-net-10-million-passwords-1000000.txt and
+  100k-most-used-passwords-NCSC.txt, filtered to passwords of 12+ characters.
+  SecLists is Copyright (c) 2018 Daniel Miessler and licensed under the MIT License.
+
+"Safe" and "Safe{Wallet}" are trademarks of their respective owners. This project is an
+independent, clean-room implementation and is not affiliated with or endorsed by Safe.
