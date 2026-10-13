@@ -34,3 +34,7 @@ move funds or get a tampered transaction signed are in scope.
 Out of scope: findings that need mainnet (it is refused in code), denial of service by volume
 against a self-hosted instance, and issues in third-party dependencies with no impact here
 (report those upstream).
+
+The public signet demo linked from the README is fine for manual testing with your own accounts.
+Please don't run automated scanners or load tests against it, and don't touch other users'
+accounts or wallets; run your own instance for that (see the README).

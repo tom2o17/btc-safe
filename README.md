@@ -15,6 +15,11 @@ not affiliated with Safe.
 > adversarial review but no independent security audit, and Trezor, QR and file signing have not
 > been verified on real devices. See [SECURITY.md](SECURITY.md) to report a vulnerability.
 
+**Live demo (signet):** https://web-production-56752.up.railway.app. Sign up with any email (it
+is only a username and is never verified). Signet coins have no value; get some from a signet
+faucet. The demo may be reset at any time, so don't keep anything there you need, and don't reuse
+a real password.
+
 - How it works internally: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (summary below)
 - Original design: [DESIGN.md](DESIGN.md)
 - Development log (what's done, what isn't): [PROGRESS.md](PROGRESS.md)
