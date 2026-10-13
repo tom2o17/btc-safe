@@ -153,16 +153,34 @@ export function crossCheck(p: Proposal, owners: KeyOwner[], threshold: number, n
     return { ok: false, problems: [`PSBT does not decode: ${(e as Error).message}`], changeVerified, decoded: null };
   }
   if (d.txid !== p.unsigned_txid) problems.push(`txid: PSBT ${d.txid.slice(0, 12)}… vs server ${p.unsigned_txid.slice(0, 12)}…`);
-  const srvIn = new Map(p.inputs.map((i) => [i.outpoint, i.amount_sats]));
-  if (srvIn.size !== d.inputs.length) problems.push(`inputs: PSBT has ${d.inputs.length}, server lists ${srvIn.size}`);
+  // The UI draws the server's rows, so they must map one-to-one onto the PSBT: every row names a
+  // real input/output exactly once, and every PSBT input/output has a row. Otherwise a server could
+  // hide an output (e.g. list a change vout twice in its place) and still match on count.
+  if (p.inputs.length !== d.inputs.length) problems.push(`inputs: PSBT has ${d.inputs.length}, server lists ${p.inputs.length}`);
+  const srvIn = new Map<string, number>();
+  for (const i of p.inputs) {
+    if (srvIn.has(i.outpoint)) problems.push(`server lists input ${i.outpoint.slice(0, 12)}… more than once`);
+    else srvIn.set(i.outpoint, i.amount_sats);
+  }
+  const psbtIn = new Set(d.inputs.map((i) => i.outpoint));
+  for (const o of srvIn.keys()) if (!psbtIn.has(o)) problems.push(`server lists input ${o.slice(0, 12)}…, which the PSBT doesn't spend`);
   for (const i of d.inputs) {
     if (!srvIn.has(i.outpoint)) problems.push(`input ${i.outpoint.slice(0, 12)}… is in the PSBT but not in the server summary`);
     else if (i.amount !== null && srvIn.get(i.outpoint) !== i.amount) problems.push(`input ${i.outpoint.slice(0, 12)}… amount differs`);
   }
   if (p.outputs.length !== d.outputs.length) problems.push(`outputs: PSBT has ${d.outputs.length}, server lists ${p.outputs.length}`);
+  const srvOut = new Map<number, Proposal["outputs"][number]>();
+  for (const s of p.outputs) {
+    if (!Number.isInteger(s.vout) || s.vout < 0 || s.vout >= d.outputs.length) problems.push(`server lists output ${s.vout}, which the PSBT doesn't have`);
+    else if (srvOut.has(s.vout)) problems.push(`server lists output ${s.vout} more than once`);
+    else srvOut.set(s.vout, s);
+  }
   for (const o of d.outputs) {
-    const s = p.outputs.find((x) => x.vout === o.vout);
-    if (!s) continue;
+    const s = srvOut.get(o.vout);
+    if (!s) {
+      problems.push(`output ${o.vout}: PSBT pays ${o.amount} sats to ${o.address}, which the server summary doesn't show`);
+      continue;
+    }
     if (s.address !== o.address) problems.push(`output ${o.vout}: PSBT pays ${o.address}, server shows ${s.address}`);
     if (s.amount_sats !== o.amount) problems.push(`output ${o.vout}: amount ${o.amount} in PSBT vs ${s.amount_sats} on server`);
     if (s.is_change) {
